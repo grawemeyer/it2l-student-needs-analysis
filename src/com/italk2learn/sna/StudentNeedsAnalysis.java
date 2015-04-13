@@ -92,6 +92,10 @@ public class StudentNeedsAnalysis {
 	
 	public void setExploratoryExercise(boolean value){
 		exploratoryExercise = value;
+		if (value){
+			setWhizzExercise(false);
+			setFractionsTutorExercise(false);
+		}
 	}
 	
 	private boolean isExploratoryExercise(){
@@ -100,6 +104,10 @@ public class StudentNeedsAnalysis {
 	
 	public void setWhizzExercise(boolean value){
 		whizzExercise = value;
+		if (value){
+			setExploratoryExercise(false);
+			setFractionsTutorExercise(false);
+		}
 	}
 	
 	public boolean isWhizzExercise(){
@@ -108,6 +116,10 @@ public class StudentNeedsAnalysis {
 	
 	public void setFractionsTutorExercise(boolean value){
 		fractionsTutorExercise = value;
+		if (value){
+			setExploratoryExercise(false);
+			setWhizzExercise(false);
+		}
 	}
 	
 	public boolean isFractionsTutorExercise(){
