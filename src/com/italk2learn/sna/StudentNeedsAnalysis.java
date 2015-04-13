@@ -14,6 +14,7 @@ public class StudentNeedsAnalysis {
 	public byte[] audioStudent;
 	public String nextTask;
 	private StudentModel student;
+	private boolean exploratoryExercise = true;
 	
 	public StudentNeedsAnalysis(){
 		student = new StudentModel();
@@ -59,7 +60,13 @@ public class StudentNeedsAnalysis {
 	public void calculateNextTask(){
 		Analysis analysis = new Analysis(student);
 		analysis.analyseSound(audioStudent);
-		analysis.analyseFeedbackAndSetNewTask(this);	
+		if (isExploratoryExercise()){
+			analysis.analyseFeedbackAndSetNewTask(this);
+		}
+		else {
+			analysis.getNextStructuredTask(this);
+		}
+			
 		student.resetAffectValues();
 	}
 	
@@ -81,7 +88,13 @@ public class StudentNeedsAnalysis {
 		return result;
 	}
 	
+	public void setExploratoryExercise(boolean value){
+		exploratoryExercise = value;
+	}
 	
+	private boolean isExploratoryExercise(){
+		return exploratoryExercise;
+	}
 	
 	
 

@@ -25,5 +25,12 @@ public class Reasoner {
 		}
 		sna.setNextTask(nextTask);
 	}
+	
+	public void getNextStructuredTask(StudentNeedsAnalysis sna) {
+		//Carlottas calculations
+		String nextTask = "";
+		
+		sna.setNextTask(nextTask);
+	}
 
 }

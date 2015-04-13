@@ -53,6 +53,12 @@ public class Analysis {
         if (student == null) student = new StudentModel();
 		student.setPTD(result);
 	}
+	
+	public void getNextStructuredTask(StudentNeedsAnalysis sna){
+		calculateStudentChallenge();
+		Reasoner reasoner = new Reasoner(student);
+		reasoner.getNextStructuredTask(sna);
+	}
 
 
 	public void analyseFeedbackAndSetNewTask(StudentNeedsAnalysis sna) {
