@@ -15,6 +15,8 @@ public class StudentNeedsAnalysis {
 	public String nextTask;
 	private StudentModel student;
 	private boolean exploratoryExercise = true;
+	private boolean whizzExercise = false;
+	private boolean fractionsTutorExercise = false;
 	
 	public StudentNeedsAnalysis(){
 		student = new StudentModel();
@@ -96,6 +98,20 @@ public class StudentNeedsAnalysis {
 		return exploratoryExercise;
 	}
 	
+	public void setWhizzExercise(boolean value){
+		whizzExercise = value;
+	}
 	
+	public boolean isWhizzExercise(){
+		return whizzExercise;
+	}
+	
+	public void setFractionsTutorExercise(boolean value){
+		fractionsTutorExercise = value;
+	}
+	
+	public boolean isFractionsTutorExercise(){
+		return fractionsTutorExercise;
+	}
 
 }
