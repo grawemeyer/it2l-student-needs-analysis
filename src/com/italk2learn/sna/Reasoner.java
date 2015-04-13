@@ -27,7 +27,9 @@ public class Reasoner {
 	}
 	
 	public void getNextStructuredTask(StudentNeedsAnalysis sna) {
+		
 		//Carlottas calculations
+		
 		String nextTask = "";
 		
 		sna.setNextTask(nextTask);
