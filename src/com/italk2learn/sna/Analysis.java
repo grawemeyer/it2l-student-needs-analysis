@@ -1,5 +1,6 @@
 package com.italk2learn.sna;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +55,10 @@ public class Analysis {
 		student.setPTD(result);
 	}
 	
-	public void getNextStructuredTask(StudentNeedsAnalysis sna){
+	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial){
 		calculateStudentChallenge();
 		Reasoner reasoner = new Reasoner(student);
-		reasoner.getNextStructuredTask(sna);
+		reasoner.getNextStructuredTask(sna, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
 	}
 
 

@@ -1,16 +1,14 @@
 package com.italk2learn.sna;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
+
+import org.springframework.stereotype.Service;
+
+import com.italk2learn.sna.inter.IStudentNeedsAnalysis;
 
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class StudentNeedsAnalysis {
-	
+@Service("studentNeedsAnalysisService")
+public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	public byte[] audioStudent;
 	public String nextTask;
 	private StudentModel student;
@@ -59,14 +57,14 @@ public class StudentNeedsAnalysis {
 	}
 	
 	
-	public void calculateNextTask(){
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial){
 		Analysis analysis = new Analysis(student);
 		analysis.analyseSound(audioStudent);
 		if (isExploratoryExercise()){
 			analysis.analyseFeedbackAndSetNewTask(this);
 		}
 		else {
-			analysis.getNextStructuredTask(this);
+			analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
 		}
 			
 		student.resetAffectValues();
@@ -125,5 +123,4 @@ public class StudentNeedsAnalysis {
 	public boolean isFractionsTutorExercise(){
 		return fractionsTutorExercise;
 	}
-
 }
