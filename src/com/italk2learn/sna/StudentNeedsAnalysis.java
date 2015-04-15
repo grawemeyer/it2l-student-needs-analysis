@@ -4,11 +4,10 @@ import java.sql.Timestamp;
 
 import org.springframework.stereotype.Service;
 
-import com.italk2learn.sna.inter.IStudentNeedsAnalysis;
 
 
-@Service("studentNeedsAnalysisService")
-public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
+//@Service("studentNeedsAnalysisService")
+public class StudentNeedsAnalysis{
 	public byte[] audioStudent;
 	public String nextTask;
 	private StudentModel student;
@@ -19,6 +18,35 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	public StudentNeedsAnalysis(){
 		student = new StudentModel();
 	}
+	
+	public void setInEngland(boolean value){
+		student.setInEngland(value);
+	}
+	
+	public void sendRepresentationTypeToSNA(String representationType){
+		String area1 = "HRects";
+		String area2 = "VRects";
+		String numb = "NumberedLines";
+		String sets1 = "MoonSets";
+		String sets2 = "StarSets";
+		String sets3 = "HeartSets";
+		String liqu = "LiquidMeasures";
+		
+		if (representationType.equals(area1) || representationType.equals(area2)){
+			student.addAmountArea();
+		}
+		else if (representationType.equals(numb)){
+			student.addAmountNumb();
+		}
+		else if (representationType.equals(sets1) || representationType.equals(sets2) || representationType.equals(sets3)){
+			student.addAmountSets();
+		}
+		else if (representationType.equals(liqu)){
+			student.addAmountLiqu();
+		}
+		
+	}
+	
 	
 	public void sendFeedbackTypeToSNA(String feedbackType){
 		String talkAloud = "TALK_ALOUD";
@@ -61,13 +89,22 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 		Analysis analysis = new Analysis(student);
 		analysis.analyseSound(audioStudent);
 		if (isExploratoryExercise()){
+			int counter = student.getUnstructuredTaskCounter();
+			counter +=1;
+			student.setUnstructuredTaskCounter(counter);
+			student.setStructuredTaskCounter(0);
 			analysis.analyseFeedbackAndSetNewTask(this);
 		}
 		else {
+			int counter = student.getStructuredTaskCounter();
+			counter +=1;
+			student.setStructuredTaskCounter(counter);
+			student.setUnstructuredTaskCounter(0);
 			analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
 		}
 			
 		student.resetAffectValues();
+		student.resetFeedbackValues();
 	}
 	
 	public byte[] getAudio(){
@@ -80,6 +117,7 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	
 	public void setNextTask(String task){
 		nextTask = task;
+		student.setCurrentExercise(task);
 	}
 
 	public String getNextTask(){
