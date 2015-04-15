@@ -14,6 +14,9 @@ public class StudentNeedsAnalysis{
 	private boolean exploratoryExercise = true;
 	private boolean whizzExercise = false;
 	private boolean fractionsTutorExercise = false;
+	private String taskDescription;
+	private boolean[] representationsFL = {true,true,true,true};
+	
 	
 	public StudentNeedsAnalysis(){
 		student = new StudentModel();
@@ -118,7 +121,10 @@ public class StudentNeedsAnalysis{
 	public void setNextTask(String task){
 		nextTask = task;
 		student.setCurrentExercise(task);
+		TaskInformationPackage tip = new TaskInformationPackage();
+		tip.calculateTaskDescriptionAndRepresentations(task, this);
 	}
+
 
 	public String getNextTask(){
 		String result = nextTask;
@@ -161,4 +167,21 @@ public class StudentNeedsAnalysis{
 	public boolean isFractionsTutorExercise(){
 		return fractionsTutorExercise;
 	}
+	
+	public void setTaskDescription(String value){
+		taskDescription = value;
+	}
+	
+	public String getTaskDescription(){
+		return taskDescription;
+	}
+	
+	public void setAvailableRepresentationsInFL(boolean[] values){
+		representationsFL = values;
+	}
+	
+	public boolean[] getAvailableRepresentationsInFL(){
+		return representationsFL;
+	}
+	
 }
