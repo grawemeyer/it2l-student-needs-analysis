@@ -229,11 +229,18 @@ public class Reasoner {
 			
 			if (sna.isWhizzExercise()) {
 				nextTask= WhizzSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
+					String currentTask = student.getCurrentExercise();
+					nextTask=calculateNextWhizztask(currentTask);
+				}
 			}
 			else { 
 				nextTask= FTSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion);
+				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
+					String currentTask = student.getCurrentExercise();
+					nextTask=calculateNextFTtask(currentTask);
+				}
 			}
-			//check if nextTask contains something
 		}
 		else {
 			//switch to next unstructured task
@@ -243,6 +250,52 @@ public class Reasoner {
 		}
 		
 		sna.setNextTask(nextTask);
+	}
+
+	private String calculateNextFTtask(String currentTask) {
+		String result = "Task2_graph_8-12";
+		
+		if (currentTask.equals("Task2_graph_9-12")){
+			result = "Task2_graph_8-12";
+		}
+		else if (currentTask.equals("Task8_graph_1-5")){
+			result = "Task5_graph_3-4";
+		}
+		else if (currentTask.equals("Task3_graph_1-2")){
+			result = "Task3_graph_2-5";
+		}
+		else if (currentTask.equals("Task1_graph_3-7")){
+			result = "Task1_graph_1-4";
+		}	
+		return result;
+	}
+
+	private String calculateNextWhizztask(String currentTask) {
+		String result = "MA_GBR_0825CAx0100";
+		
+		if (currentTask.equals("MA_GBR_0800CAx0100")){
+			result = "MA_GBR_0825CAx0100";
+		}
+		else if (currentTask.equals("MA_GBR_1125CAx0100")){
+			result = "MA_GBR_0700CAx0100";
+		}
+		else if (currentTask.equals("MA_GBR_0850CAx0100")){
+			result = "MA_GBR_0700CAx0200";
+		}
+		else if (currentTask.equals("MA_GBR_0950CAx0100")){
+			result = "MA_GBR_0825CAx0200";
+		}
+		else if (currentTask.equals("MA_GBR_1150CAx0300")){
+			result = "MA_GBR_0900CAx0100";
+		}
+		else if (currentTask.equals("MA_GBR_1150CAx0100")){
+			result = "MA_GBR_1200CAx0200";
+		}
+		else if (currentTask.equals("MA_GBR_1150CAx0100")){
+			result = "MA_GBR_1200CAx0200";
+		}
+		
+		return result;
 	}
 
 }
