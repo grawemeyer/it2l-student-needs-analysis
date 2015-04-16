@@ -43,10 +43,22 @@ public class Reasoner {
 			nextTask = "task2.4.setA."+leastUsedRep;
 		}
 		else if (currentTask.equals("task2.4")){
-			nextTask = "task2.6.setA";
+			String fractionType = currenExercise.substring(8,12);
+			if (fractionType.equals("setA")){
+				nextTask = "task2.6.setA";
+			}
+			else {
+				nextTask = "task2.6.setB";
+			}
 		}
 		else if (currentTask.equals("task2.6")){
-			nextTask = "task2.7.setA";
+			String fractionType = currenExercise.substring(8,12);
+			if (fractionType.equals("setA")){
+				nextTask = "task2.7.setA";
+			}
+			else {
+				nextTask = "task2.7.setB";
+			}
 		}
 		else if (currentTask.equals("task2.7")){
 			String fractionType = currenExercise.substring(8,12);
@@ -54,12 +66,53 @@ public class Reasoner {
 				nextTask = "task2.7.setB";
 			}
 			else {
-				nextTask = "task2.7.setC";
+				nextTask = "task2.4.setB";
 			}
 		}
 		return nextTask;
 	}
 	
+	
+	private String getNextTaskForAppropriatelyChallgenge(String currenExercise){
+		String nextTask = "";
+		String currentTask = currenExercise.substring(0, 7);
+		
+		if (currentTask.equals("task2.1")){
+			nextTask = "task2.2";
+		}
+		else if (currentTask.equals("task2.2")){
+			String leastUsedRep = getLeastUsedRep();
+			nextTask = "task2.4.setA."+leastUsedRep;
+		}
+		else if (currentTask.equals("task2.4")){
+			String fractionType = currenExercise.substring(8,12);
+			if (fractionType.equals("setA")){
+				nextTask = "task2.4.setB";
+			}
+			else {
+				nextTask = "task2.6.setA";
+			}
+		}
+		else if (currentTask.equals("task2.6")){
+			String fractionType = currenExercise.substring(8,12);
+			if (fractionType.equals("setA")){
+				nextTask = "task2.6.setB";
+			}
+			else {
+				nextTask = "task2.7.setA";
+			}
+		}
+		else if (currentTask.equals("task2.7")){
+			String fractionType = currenExercise.substring(8,12);
+			if (fractionType.equals("setA")){
+				nextTask = "task2.7.setB";
+			}
+			else {
+				nextTask = "task2.4.setB";
+			}
+		}
+		return nextTask;
+	}
 	
 	private String getNextTaskForOverChallenged(String currenExercise){
 		String nextTask = "";
@@ -73,13 +126,40 @@ public class Reasoner {
 			nextTask = "task2.1";
 		}
 		else if (currentTask.equals("task2.4")){
-			nextTask="task2.2";
+			String fractionType = currenExercise.substring(8, 12);
+			if (fractionType.equals("setB")){
+				nextTask = getNextTaskWithMostUsedRep("task2.4.setA", mostUsedRep);
+			}
+			else if (fractionType.equals("setC")){
+				nextTask = getNextTaskWithMostUsedRep("task2.4.setB", mostUsedRep);
+			}
+			else {
+				nextTask="task2.2";
+			}
 		}
 		else if (currentTask.equals("task2.6")){
-			nextTask = getNextTaskWithMostUsedRep("task2.4.setC", mostUsedRep);
+			String fractionType = currenExercise.substring(8, 12);
+			if (fractionType.equals("setB")){
+				nextTask = "task2.6.setA";
+			}
+			else if (fractionType.equals("setC")){
+				nextTask = "task2.6.setB";
+			}
+			else {
+				nextTask = getNextTaskWithMostUsedRep("task2.4.setB", mostUsedRep);
+			}
 		}
 		else if (currentTask.equals("task2.7")){
-				nextTask = "task2.6.setC";
+			String fractionType = currenExercise.substring(8, 12);
+			if (fractionType.equals("setB")){
+				nextTask = "task2.7.setA";
+			}
+			else if (fractionType.equals("setC")){
+				nextTask = "task2.7.setB";
+			}
+			else {
+				nextTask = "task2.6.setB";
+			}
 		}
 		return nextTask;
 	}
@@ -177,8 +257,7 @@ public class Reasoner {
 			nextTask = getNextTaskForUnderChallgenge(currenExercise); 
 		}
 		else {
-			//this needs to get checked if it is the same for under and appropriately challenged
-			nextTask = getNextTaskForUnderChallgenge(currenExercise);
+			nextTask = getNextTaskForAppropriatelyChallgenge(currenExercise);
 		}
 		return nextTask;
 	}
