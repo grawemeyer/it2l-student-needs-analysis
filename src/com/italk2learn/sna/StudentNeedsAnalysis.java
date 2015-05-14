@@ -105,6 +105,22 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	
+	public void setStudentModel(boolean isExploratoryExercise, int studentChallenge, String currentExercise, int unstructuredCounter, int structuredCounter){
+		exploratoryExercise = isExploratoryExercise;
+		student.setStudentChallenge(studentChallenge);
+		student.setCurrentExercise(currentExercise);
+		student.setUnstructuredTaskCounter(unstructuredCounter);
+		student.setStructuredTaskCounter(structuredCounter);
+	}
+	
+	public void saveStudentModel(){
+		boolean isExploratoryExercise = exploratoryExercise;
+		int studentChallenge = student.getStudentChallenge();
+		String currentExercise = student.getCurrentExercise();
+		int unstructuredCounter = student.getUnstructuredTaskCounter();
+		int structuredCounter = student.getStructuredTaskCounter();
+	}
+	
 	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException{
 		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
 		Analysis analysis = new Analysis(student);
