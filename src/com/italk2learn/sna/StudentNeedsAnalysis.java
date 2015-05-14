@@ -25,6 +25,8 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	private boolean fractionsTutorExercise = false;
 	private String taskDescription;
 	private boolean[] representationsFL = {true,true,true,true};
+	String nameForValueThatNeedsTogetSavedinDB = "";
+	String valueThatNeedsTogetSavedinDB = "";
 	
 	
 	public StudentNeedsAnalysis(){
@@ -129,9 +131,28 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	public void saveLog(String name, String value){
-		String nameForValueThatNeedsTogetSavedinDB = name;
-		String valueThatNeedsTogetSavedinDB = value;
+		nameForValueThatNeedsTogetSavedinDB = name;
+		valueThatNeedsTogetSavedinDB = value;
 	}
+	
+	public String getLogName(){
+		String result = "";
+		if (!nameForValueThatNeedsTogetSavedinDB.equals("")){
+			result = nameForValueThatNeedsTogetSavedinDB;
+			nameForValueThatNeedsTogetSavedinDB = "";
+		}
+		return result;
+	}
+	
+	public String getLogValue(){
+		String result = "";
+		if (!valueThatNeedsTogetSavedinDB.equals("")){
+			result = valueThatNeedsTogetSavedinDB;
+			valueThatNeedsTogetSavedinDB = "";
+		}
+		return result;
+	}
+	
 	
 	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException{
 		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
