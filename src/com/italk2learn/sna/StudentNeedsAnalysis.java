@@ -107,15 +107,21 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	
-	public void setStudentModel(boolean isExploratoryExercise, int studentChallenge, String currentExercise, int unstructuredCounter, int structuredCounter){
+	public void setStudentModel(int studentChallenge, String currentExercise, int unstructuredCounter, int structuredCounter){
 		if (currentExercise.equals("")){
-			isExploratoryExercise = true;
 			studentChallenge = 0;
 			currentExercise = "task2.2";
 			unstructuredCounter = 0;
 			structuredCounter = 0;
 		}
-		exploratoryExercise = isExploratoryExercise;
+		
+		if (currentExercise.contains("task")){
+			exploratoryExercise = true;
+		}
+		else {
+			exploratoryExercise = false;
+		}
+		
 		student.setStudentChallenge(studentChallenge);
 		student.setCurrentExercise(currentExercise);
 		student.setUnstructuredTaskCounter(unstructuredCounter);
@@ -123,7 +129,6 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	}
 	
 	public void saveStudentModel(){
-		boolean isExploratoryExercise = exploratoryExercise;
 		int studentChallenge = student.getStudentChallenge();
 		String currentExercise = student.getCurrentExercise();
 		int unstructuredCounter = student.getUnstructuredTaskCounter();
