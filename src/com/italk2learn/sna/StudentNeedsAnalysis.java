@@ -2,12 +2,21 @@ package com.italk2learn.sna;
 
 import java.sql.Timestamp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
+import com.italk2learn.sna.exception.SNAException;
+import com.italk2learn.sna.inter.IStudentNeedsAnalysis;
 
 
-//@Service("studentNeedsAnalysisService")
-public class StudentNeedsAnalysis{
+@Service("studentNeedsAnalysisService")
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
+	
+	private static final Logger logger = LoggerFactory.getLogger(StudentNeedsAnalysis.class);
 	public byte[] audioStudent;
 	public String nextTask;
 	private StudentModel student;
@@ -24,6 +33,10 @@ public class StudentNeedsAnalysis{
 	
 	public void setInEngland(boolean value){
 		student.setInEngland(value);
+	}
+	
+	public boolean getEngland(){
+		return student.getInEngland();
 	}
 	
 	public void sendRepresentationTypeToSNA(String representationType){
@@ -88,7 +101,8 @@ public class StudentNeedsAnalysis{
 	}
 	
 	
-	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial){
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException{
+		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
 		Analysis analysis = new Analysis(student);
 		analysis.analyseSound(audioStudent);
 		if (isExploratoryExercise()){
@@ -103,7 +117,12 @@ public class StudentNeedsAnalysis{
 			counter +=1;
 			student.setStructuredTaskCounter(counter);
 			student.setUnstructuredTaskCounter(0);
-			analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+			try {
+				analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
+			} catch (SNAException e) {
+				// TODO Auto-generated catch block
+				throw new SNAException(new Exception(), e.getSnamessage());
+			}
 		}
 			
 		student.resetAffectValues();
@@ -183,5 +202,4 @@ public class StudentNeedsAnalysis{
 	public boolean[] getAvailableRepresentationsInFL(){
 		return representationsFL;
 	}
-	
 }

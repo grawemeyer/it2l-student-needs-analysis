@@ -2,11 +2,20 @@ package com.italk2learn.sna;
 
 import java.sql.Timestamp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import MFSeq.FTSequencer;
 import MFSeq.WhizzSequencer;
 
+import com.italk2learn.sna.exception.SNAException;
+import com.italk2learn.sna.inter.Sequencer;
+import com.italk2learn.util.WhizzUtil;
+
 public class Reasoner {
 	StudentModel student;
+	
+	private static final Logger logger = LoggerFactory.getLogger(Reasoner.class);
 	
 	public Reasoner (StudentModel thisStudent){
 		student = thisStudent;
@@ -71,7 +80,6 @@ public class Reasoner {
 		}
 		return nextTask;
 	}
-	
 	
 	private String getNextTaskForAppropriatelyChallgenge(String currenExercise){
 		String nextTask = "";
@@ -268,113 +276,69 @@ public class Reasoner {
 		
 		if (currentTask.equals("task2.1")){
 			if (inEngland) nextTask = "MA_GBR_0800CAx0100";
-			else nextTask = "Task2_graph_9-12";
+			else nextTask = "task2graph_9-12";
 			
 		}
 		else if (currentTask.equals("task2.2")){
 			if (inEngland) nextTask = "MA_GBR_1125CAx0100";
-			else nextTask = "Task2_graph_9-12";
+			else nextTask = "task2graph_9-12";
 		}
 		else if (currentTask.equals("task2.3")){
 			if (inEngland) nextTask = "MA_GBR_0850CAx0100";
-			else nextTask = "Task2_graph_9-12";
+			else nextTask = "task2graph_9-12";
 		}
 		else if (currentTask.equals("task2.4")){
 			if (inEngland) nextTask = "MA_GBR_0950CAx0100";
-			else nextTask = "Task8_graph_1-5";
+			else nextTask = "task8graph_1-5";
 		}
 		else if (currentTask.equals("task2.5")){
 			if (inEngland) nextTask = "MA_GBR_1150CAx0300";
-			else nextTask = "Task8_graph_1-5";
+			else nextTask = "task8graph_1-5";
 		}
 		else if (currentTask.equals("task2.6")){
 			if (inEngland) nextTask = "MA_GBR_1150CAx0100";
-			else nextTask = "Task3_graph_1-2";
+			else nextTask = "task3graph_1-2";
 		}
 		else if (currentTask.equals("task2.7")){
 			if (inEngland) nextTask = "MA_GBR_1150CAx0100";
-			else nextTask = "Task1_graph_3-7";
+			else nextTask = "task1graph_3-7";
 		}
 		
 		return nextTask;
 		
 	}
 	
-	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, boolean Trial) {
+	public void getNextStructuredTask(StudentNeedsAnalysis sna, int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException {
+		logger.info("getNextStructuredTask()---values--> whizzStudID="+whizzStudID+" whizzPrevContID="+whizzPrevContID+ " prevScore="+prevScore+ " timestamp"+timestamp.toString()+" WhizzSuggestion="+WhizzSuggestion +" trial="+Trial);
+		Sequencer sq= new SNASequencer(); 
 		String nextTask = "";
+		int counter=1;
 		
-		if (student.getUnstructuredTaskCounter() == 1){
+		if (student.getInEngland()){
+			counter=3;
+		}
+		
+		if ((student.getStructuredTaskCounter() >=1) && (student.getStructuredTaskCounter()<= counter)){
+			String contID = student.getCurrentExercise();
 			//sequence next structured task
-			
 			if (sna.isWhizzExercise()) {
-				nextTask= WhizzSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
-				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
-					String currentTask = student.getCurrentExercise();
-					nextTask=calculateNextWhizztask(currentTask);
-				}
+				nextTask= sq.next(whizzStudID, contID, prevScore, timestamp, WhizzSuggestion, Trial, StructuredActivityType.WHIZZ);
 			}
 			else { 
-				nextTask= FTSequencer.next(whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion);
-				if ((nextTask == null) || nextTask.equals("") ||  nextTask.equals("-1")){
-					String currentTask = student.getCurrentExercise();
-					nextTask=calculateNextFTtask(currentTask);
-				}
+				nextTask= sq.next(whizzStudID, contID, prevScore, timestamp, WhizzSuggestion, Trial, StructuredActivityType.FRACTIONS_TUTOR);
 			}
 		}
 		else {
 			//switch to next unstructured task
 			int studentChallenge = student.getLastStudentChallenge();
 			if (studentChallenge == StudentChallenge.flow) studentChallenge = StudentChallenge.underChallenged;
-			calculateNextUnstructuredTask(student.getLastExploratoryExercise(), studentChallenge);
+			nextTask=calculateNextUnstructuredTask(student.getLastExploratoryExercise(), studentChallenge);
 		}
-		
 		sna.setNextTask(nextTask);
 	}
 
-	private String calculateNextFTtask(String currentTask) {
-		String result = "Task2_graph_8-12";
-		
-		if (currentTask.equals("Task2_graph_9-12")){
-			result = "Task2_graph_8-12";
-		}
-		else if (currentTask.equals("Task8_graph_1-5")){
-			result = "Task5_graph_3-4";
-		}
-		else if (currentTask.equals("Task3_graph_1-2")){
-			result = "Task3_graph_2-5";
-		}
-		else if (currentTask.equals("Task1_graph_3-7")){
-			result = "Task1_graph_1-4";
-		}	
-		return result;
-	}
+	
 
-	private String calculateNextWhizztask(String currentTask) {
-		String result = "MA_GBR_0825CAx0100";
-		
-		if (currentTask.equals("MA_GBR_0800CAx0100")){
-			result = "MA_GBR_0825CAx0100";
-		}
-		else if (currentTask.equals("MA_GBR_1125CAx0100")){
-			result = "MA_GBR_0700CAx0100";
-		}
-		else if (currentTask.equals("MA_GBR_0850CAx0100")){
-			result = "MA_GBR_0700CAx0200";
-		}
-		else if (currentTask.equals("MA_GBR_0950CAx0100")){
-			result = "MA_GBR_0825CAx0200";
-		}
-		else if (currentTask.equals("MA_GBR_1150CAx0300")){
-			result = "MA_GBR_0900CAx0100";
-		}
-		else if (currentTask.equals("MA_GBR_1150CAx0100")){
-			result = "MA_GBR_1200CAx0200";
-		}
-		else if (currentTask.equals("MA_GBR_1150CAx0100")){
-			result = "MA_GBR_1200CAx0200";
-		}
-		
-		return result;
-	}
+	
 
 }

@@ -10,7 +10,7 @@ public class TaskInformationPackage {
 		String currentTask = task.substring(0, 7);
 		String taskDescription = "";
 		boolean[] representationsFL = {true,true,true,true};
-		
+			
 		if (currentTask.equals("task2.1")){
 			taskDescription = TaskDescription.task2Point1;
 		}
@@ -89,7 +89,6 @@ public class TaskInformationPackage {
 			else if (task.equals("task2.6.setC")){
 				taskDescription = TaskDescription.task2Point6setC;
 			}
-		
 		}
 		else if (currentTask.equals("task2.7")){
 			if (task.equals("task2.7.setA")){
@@ -105,6 +104,8 @@ public class TaskInformationPackage {
 		}
 		sna.setTaskDescription(taskDescription);
 		sna.setAvailableRepresentationsInFL(representationsFL);
-	}
+	} 
+			
+	
 
 }
