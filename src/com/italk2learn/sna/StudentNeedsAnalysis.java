@@ -106,6 +106,13 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 	
 	
 	public void setStudentModel(boolean isExploratoryExercise, int studentChallenge, String currentExercise, int unstructuredCounter, int structuredCounter){
+		if (currentExercise.equals("")){
+			isExploratoryExercise = true;
+			studentChallenge = 0;
+			currentExercise = "task2.2";
+			unstructuredCounter = 0;
+			structuredCounter = 0;
+		}
 		exploratoryExercise = isExploratoryExercise;
 		student.setStudentChallenge(studentChallenge);
 		student.setCurrentExercise(currentExercise);
