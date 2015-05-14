@@ -38,6 +38,20 @@ public class StudentModel {
 	int unstructuredTaskCounter = 0;
 	int structuredTaskCounter = 0;
 	
+	public String getStudentChallengeAsString(){
+		String result = "";
+		if (studentChallenge == StudentChallenge.overChallenged){
+			result = "overChallenged";
+		}
+		else if (studentChallenge == StudentChallenge.underChallenged){
+			result = "underChallenged";
+		}
+		else if (studentChallenge == StudentChallenge.flow){
+			result = "flow";
+		}
+		return result;
+	}
+	
 	public void setLastFeedbackProvided(String value){
 		lastFeedbackProvided = value;
 	}

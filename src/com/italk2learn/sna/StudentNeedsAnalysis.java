@@ -128,6 +128,11 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 		int structuredCounter = student.getStructuredTaskCounter();
 	}
 	
+	public void saveLog(String name, String value){
+		String nameForValueThatNeedsTogetSavedinDB = name;
+		String valueThatNeedsTogetSavedinDB = value;
+	}
+	
 	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial) throws SNAException{
 		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
 		Analysis analysis = new Analysis(student);
@@ -169,6 +174,8 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 		student.setCurrentExercise(task);
 		TaskInformationPackage tip = new TaskInformationPackage();
 		tip.calculateTaskDescriptionAndRepresentations(task, this);
+		saveLog("sna.sc",student.getStudentChallengeAsString());
+		saveLog("sna.task",task);
 	}
 
 
