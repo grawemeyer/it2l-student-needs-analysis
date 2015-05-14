@@ -71,6 +71,9 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 		String nextStep = "NEXT_STEP";
 		String problemSolving = "PROBLEM_SOLVING";
 		String reflection = "REFLECTION";
+		String taskNotFinished = "TASK_NOT_FINISHED";
+		
+		student.setLastFeedbackProvided(feedbackType);
 		
 		System.out.println("::: send feedback to SNA ::: "+feedbackType);
 		
@@ -80,6 +83,7 @@ public class StudentNeedsAnalysis implements IStudentNeedsAnalysis {
 		else if (feedbackType.equals(nextStep)) student.addAmountNextStep();
 		else if (feedbackType.equals(problemSolving)) student.addAmountProblemSolving();
 		else if (feedbackType.equals(reflection)) student.addAmountReflection();
+		else if (feedbackType.equals(taskNotFinished)) student.addAmountTaskNotFinished();
 	}
 	
 	public void sendAffectToSNA(String affectType){
