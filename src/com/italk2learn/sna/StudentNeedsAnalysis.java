@@ -253,7 +253,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		nextTask = task;
 		student.setCurrentExercise(task);
 		TaskInformationPackage tip = new TaskInformationPackage();
-		tip.calculateTaskDescriptionAndRepresentations(task, this);
+		tip.calculateTaskDescriptionAndRepresentations(task, this, student.getInEngland());
 		saveLog("sna.sc",student.getStudentChallengeAsString());
 		saveLog("sna.task",task);
 	}
