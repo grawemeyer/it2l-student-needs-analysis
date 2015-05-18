@@ -23,5 +23,10 @@ public class VPSequencer implements Sequencer {
 	    }
 	}
 
+	public String getRule() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

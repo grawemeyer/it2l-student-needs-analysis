@@ -69,6 +69,8 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		String sets3 = "HeartSets";
 		String liqu = "LiquidMeasures";
 		
+		saveLog("SNA.set.representation", representationType);
+		
 		if (representationType.equals(area1) || representationType.equals(area2)){
 			student.addAmountArea();
 		}
@@ -94,6 +96,8 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		String reflection = "REFLECTION";
 		String taskNotFinished = "TASK_NOT_FINISHED";
 		
+		saveLog("SNA.set.feedback.type", feedbackType);
+		
 		student.setLastFeedbackProvided(feedbackType);
 		
 		System.out.println("::: send feedback to SNA ::: "+feedbackType);
@@ -115,6 +119,8 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		String boredom = "BOREDOM";
 		String flow = "FLOW";
 		String surprise = "SURPRISE";
+		
+		saveLog("SNA.set.affect", affectType);
 		
 		System.out.println("::: send affect to SNA ::: "+affectType);
 		
@@ -151,6 +157,12 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 			student.setCurrentExercise(currentExercise);
 			student.setUnstructuredTaskCounter(unstructuredCounter);
 			student.setStructuredTaskCounter(structuredCounter);
+			
+			saveLog("SNA.set.student.challenge", ""+studentChallenge);
+			saveLog("SNA.set.student.exercise", currentExercise);
+			saveLog("SNA.set.student.counter.unstructured", ""+unstructuredCounter);
+			saveLog("SNA.set.student.counter.structured", ""+structuredCounter);
+			
 		//} catch (ITalk2LearnException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
@@ -163,6 +175,12 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		String currentExercise = student.getCurrentExercise();
 		int unstructuredCounter = student.getUnstructuredTaskCounter();
 		int structuredCounter = student.getStructuredTaskCounter();
+		
+		saveLog("SNA.save.student.challenge", ""+studentChallenge);
+		saveLog("SNA.wave.student.exercise", currentExercise);
+		saveLog("SNA.save.student.counter.unstructured", ""+unstructuredCounter);
+		saveLog("SNA.save.student.counter.structured", ""+structuredCounter);
+		
 		//try {
 			//getStudentModelDAO().insertCurrentStudentModelByUser(idUser, isExploratoryExercise, studentChallenge, currentExercise, unstructuredCounter, structuredCounter);
 		//} catch (ITalk2LearnException e) {
@@ -208,11 +226,11 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial, boolean firstTask) throws SNAException{
 		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
 		if(firstTask){
-			setNextTask(student.getCurrentExercise());
+			setNextTask(student.getCurrentExercise(), "firstTaskFromStudentModel");
 		}
 		else{
 		
-		Analysis analysis = new Analysis(student);
+		Analysis analysis = new Analysis(student, this);
 		
 		analysis.analyseSound(audioStudent);
 
@@ -249,12 +267,22 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		audioStudent = currentAudioStudent;
 	}
 	
-	public void setNextTask(String task){
+	public void setNextTask(String task, String rule){
 		nextTask = task;
 		student.setCurrentExercise(task);
 		TaskInformationPackage tip = new TaskInformationPackage();
 		tip.calculateTaskDescriptionAndRepresentations(task, this, student.getInEngland());
+		
+		saveLog("sna.feedback.nextStep", ""+student.getAmountNextStep());
+		saveLog("sna.feedback.problemSolving", ""+student.getAmountProblemSolving());
+		saveLog("sna.feedback.affectBoosts", ""+student.getAmountAffectBoosts());
+		saveLog("sna.feedback.mathsVocab", ""+student.getAmountMathsVocab());
+		saveLog("sna.feedback.talkAloud", ""+student.getAmountTalkAloud());
+		saveLog("sna.feedback.affirmation", ""+student.getAmountAffirmation());
+		saveLog("sna.feedback.taskNotFinished", ""+student.getAmountTaskNotFinished());
+		
 		saveLog("sna.sc",student.getStudentChallengeAsString());
+		saveLog("sna.rule",rule);
 		saveLog("sna.task",task);
 	}
 
@@ -267,6 +295,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 	
 	public void setExploratoryExercise(boolean value){
 		exploratoryExercise = value;
+		saveLog("sna.set.Exploratory", ""+value);
 		if (value){
 			setWhizzExercise(false);
 			setFractionsTutorExercise(false);
@@ -279,6 +308,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 	
 	public void setWhizzExercise(boolean value){
 		whizzExercise = value;
+		saveLog("sna.set.Whizz", ""+value);
 		if (value){
 			setExploratoryExercise(false);
 			setFractionsTutorExercise(false);
@@ -291,6 +321,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 	
 	public void setFractionsTutorExercise(boolean value){
 		fractionsTutorExercise = value;
+		saveLog("sna.set.FractionsTutor", ""+value);
 		if (value){
 			setExploratoryExercise(false);
 			setWhizzExercise(false);
