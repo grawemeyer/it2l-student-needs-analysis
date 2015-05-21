@@ -135,6 +135,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		//boolean isExploratoryExercise = true; 
 		int studentChallenge = 0;
 		String currentExercise = "task2.2"; 
+		String lastExploratoryExercise = "task2.2";
 		int unstructuredCounter = 0; 
 		int structuredCounter = 0;
 		//try {
@@ -144,6 +145,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 				//currentExercise = sm.getCurrentExercise();
 				//unstructuredCounter = sm.getUnstructuredCounter();
 				//structuredCounter = sm.getStructuredCounter();
+				//lastExploratoryExercise = sm.getLastExploratoryExercise();
 			//}
 			
 			if (currentExercise.contains("task2.")){
@@ -157,6 +159,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 			student.setCurrentExercise(currentExercise);
 			student.setUnstructuredTaskCounter(unstructuredCounter);
 			student.setStructuredTaskCounter(structuredCounter);
+			student.setLastExploratoryExercise(lastExploratoryExercise);
 			
 			saveLog("SNA.set.student.challenge", ""+studentChallenge);
 			saveLog("SNA.set.student.exercise", currentExercise);
@@ -175,14 +178,16 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		String currentExercise = student.getCurrentExercise();
 		int unstructuredCounter = student.getUnstructuredTaskCounter();
 		int structuredCounter = student.getStructuredTaskCounter();
+		String lastExploratoryExercise = student.getLastExploratoryExercise();
 		
 		saveLog("SNA.save.student.challenge", ""+studentChallenge);
 		saveLog("SNA.wave.student.exercise", currentExercise);
 		saveLog("SNA.save.student.counter.unstructured", ""+unstructuredCounter);
 		saveLog("SNA.save.student.counter.structured", ""+structuredCounter);
+		saveLog("SNA.save.student.lastExploratoryExercise", ""+lastExploratoryExercise);
 		
 		//try {
-			//getStudentModelDAO().insertCurrentStudentModelByUser(idUser, isExploratoryExercise, studentChallenge, currentExercise, unstructuredCounter, structuredCounter);
+			//getStudentModelDAO().insertCurrentStudentModelByUser(idUser, isExploratoryExercise, studentChallenge, currentExercise, unstructuredCounter, structuredCounter, lastExploratoryExercise);
 		//} catch (ITalk2LearnException e) {
 			// TODO Auto-generated catch block
 			//logger.error(e.toString());
