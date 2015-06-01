@@ -164,6 +164,7 @@ public class StudentNeedsAnalysis{// implements IStudentNeedsAnalysis {
 			student.setStructuredTaskCounter(structuredCounter);
 			student.setLastExploratoryExercise(lastExploratoryExercise);
 			
+			saveLog("SNA.set.student.idUser", ""+idUser);
 			saveLog("SNA.set.student.challenge", ""+studentChallenge);
 			saveLog("SNA.set.student.exercise", currentExercise);
 			saveLog("SNA.set.student.counter.unstructured", ""+unstructuredCounter);
@@ -182,6 +183,7 @@ public class StudentNeedsAnalysis{// implements IStudentNeedsAnalysis {
 		int structuredCounter = student.getStructuredTaskCounter();
 		String lastExploratoryExercise = student.getLastExploratoryExercise();
 		
+		saveLog("SNA.save.student.idUser", ""+idUser);
 		saveLog("SNA.save.student.challenge", ""+studentChallenge);
 		saveLog("SNA.wave.student.exercise", currentExercise);
 		saveLog("SNA.save.student.counter.unstructured", ""+unstructuredCounter);
