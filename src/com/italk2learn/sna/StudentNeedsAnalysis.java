@@ -12,21 +12,21 @@ import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-//import com.hibernate.dto.Studentmodel;
-//import com.italk2learn.bo.inter.ILoginUserService;
-//import com.italk2learn.dao.inter.ISNALogDAO;
-//import com.italk2learn.dao.inter.IStudentModelDAO;
+/*import com.hibernate.dto.Studentmodel;
+import com.italk2learn.bo.inter.ILoginUserService;
+import com.italk2learn.dao.inter.ISNALogDAO;
+import com.italk2learn.dao.inter.IStudentModelDAO;
 import com.italk2learn.exception.ITalk2LearnException;
 import com.italk2learn.sna.exception.SNAException;
 import com.italk2learn.sna.inter.IStudentNeedsAnalysis;
-//import com.italk2learn.vo.ExerciseSequenceRequestVO;
-import com.italk2learn.vo.HeaderVO;
+import com.italk2learn.vo.ExerciseSequenceRequestVO;
+import com.italk2learn.vo.HeaderVO;*/
 
 
 @Service("studentNeedsAnalysisService")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-@Transactional(rollbackFor = { ITalk2LearnException.class, ITalk2LearnException.class })
-public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
+//@Transactional(rollbackFor = { ITalk2LearnException.class, ITalk2LearnException.class })
+public class StudentNeedsAnalysis{// implements IStudentNeedsAnalysis {
 	
 	//@Autowired
 	//public IStudentModelDAO studentModelDAO;
@@ -35,6 +35,7 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 	//@Autowired
 	//public ISNALogDAO snaLogDAO;
 	
+
 
 	private static final Logger logger = LoggerFactory.getLogger(StudentNeedsAnalysis.class);
 	public byte[] audioStudent;
@@ -135,18 +136,20 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		//boolean isExploratoryExercise = true; 
 		int studentChallenge = 0;
 		String currentExercise = "task2.2"; 
-		String lastExploratoryExercise = "task2.2";
 		int unstructuredCounter = 0; 
 		int structuredCounter = 0;
-		//try {
-			//Studentmodel sm = getStudentModelDAO().getCurrentStudentModelByUser(idUser);
-			//if (sm!=null) {
-				//studentChallenge = sm.getStudentChallenge();
-				//currentExercise = sm.getCurrentExercise();
-				//unstructuredCounter = sm.getUnstructuredCounter();
-				//structuredCounter = sm.getStructuredCounter();
-				//lastExploratoryExercise = sm.getLastExploratoryExercise();
-			//}
+		String lastExploratoryExercise = "task2.2";
+		try {
+			/*Studentmodel sm = getStudentModelDAO().getCurrentStudentModelByUser(idUser);
+			if (sm!=null) {
+//				if(sm.getIsExploratoryExercise()==0)
+//					isExploratoryExercise = false;
+				studentChallenge = sm.getStudentChallenge();
+				currentExercise = sm.getCurrentExercise();
+				unstructuredCounter = sm.getUnstructuredCounter();
+				structuredCounter = sm.getStructuredCounter();
+				lastExploratoryExercise = sm.getLastExploratoryExercise();
+			}*/
 			
 			if (currentExercise.contains("task2.")){
 				exploratoryExercise = true;
@@ -165,11 +168,10 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 			saveLog("SNA.set.student.exercise", currentExercise);
 			saveLog("SNA.set.student.counter.unstructured", ""+unstructuredCounter);
 			saveLog("SNA.set.student.counter.structured", ""+structuredCounter);
-			
-		//} catch (ITalk2LearnException e) {
+		} catch (Exception e) { //catch (ITalk2LearnException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		//}
+			e.printStackTrace();
+		}
 	}
 	
 	public void saveStudentModel(int idUser){
@@ -185,13 +187,12 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		saveLog("SNA.save.student.counter.unstructured", ""+unstructuredCounter);
 		saveLog("SNA.save.student.counter.structured", ""+structuredCounter);
 		saveLog("SNA.save.student.lastExploratoryExercise", ""+lastExploratoryExercise);
-		
-		//try {
-			//getStudentModelDAO().insertCurrentStudentModelByUser(idUser, isExploratoryExercise, studentChallenge, currentExercise, unstructuredCounter, structuredCounter, lastExploratoryExercise);
-		//} catch (ITalk2LearnException e) {
+		/*try {
+			getStudentModelDAO().insertCurrentStudentModelByUser(idUser, isExploratoryExercise, studentChallenge, currentExercise, unstructuredCounter, structuredCounter, lastExploratoryExercise);
+		} catch (ITalk2LearnException e) {
 			// TODO Auto-generated catch block
-			//logger.error(e.toString());
-		//}
+			logger.error(e.toString());
+		}*/
 	}
 	
 	public void saveLog(String name, String value){
@@ -199,12 +200,12 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 		LdapUserDetailsImpl	user = (LdapUserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//request.setHeaderVO(new HeaderVO());
 		//request.getHeaderVO().setLoginUser(user.getUsername());
-		//try {
-			//getSnaLogDAO().storeDataSNA(getLoginUserService().getIdUserInfo(request.getHeaderVO()), name, value);
-		//} catch (ITalk2LearnException e) {
+		/*try {
+			getSnaLogDAO().storeDataSNA(getLoginUserService().getIdUserInfo(request.getHeaderVO()), name, value);
+		} catch (ITalk2LearnException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		//}
+			e.printStackTrace();
+		}*/
 		nameForValueThatNeedsTogetSavedinDB = name;
 		valueThatNeedsTogetSavedinDB = value;
 	}
@@ -228,7 +229,9 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 	}
 	
 	
-	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial, boolean firstTask) throws SNAException{
+	//public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial, boolean firstTask) throws SNAException{
+	public void calculateNextTask(int whizzStudID, String whizzPrevContID, int prevScore, Timestamp timestamp, String WhizzSuggestion, int Trial, boolean firstTask) throws Exception{
+			
 		logger.info("JLF StudentNeedsAnalysis calculateNextTask() ---");
 		if(firstTask){
 			setNextTask(student.getCurrentExercise(), "firstTaskFromStudentModel");
@@ -251,12 +254,12 @@ public class StudentNeedsAnalysis {//implements IStudentNeedsAnalysis {
 			counter +=1;
 			student.setStructuredTaskCounter(counter);
 			student.setUnstructuredTaskCounter(0);
-			try {
+			//try {
 				analysis.getNextStructuredTask(this, whizzStudID, whizzPrevContID, prevScore, timestamp, WhizzSuggestion, Trial);
-			} catch (SNAException e) {
+			//} catch (Exception e) {
 				// TODO Auto-generated catch block
-				throw new SNAException(new Exception(), e.getSnamessage());
-			}
+				//throw new Exception(new Exception(), e.getMessage());
+			//}
 		}
 			
 		student.resetAffectValues();
