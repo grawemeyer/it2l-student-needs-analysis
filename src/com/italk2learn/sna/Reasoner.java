@@ -86,7 +86,8 @@ public class Reasoner {
 			}
 			else {
 				rule = ("underChallenged_task2.7_else");
-				nextTask = "task2.4.setB";
+				String leastUsedRep = getLeastUsedRep();
+				nextTask = "task2.4.setB."+leastUsedRep;
 			}
 		}
 		student.setRule(rule);
@@ -111,7 +112,8 @@ public class Reasoner {
 			String fractionType = currenExercise.substring(8,12);
 			if (fractionType.equals("setA")){
 				rule = ("appChallenged_task2.4_setA");
-				nextTask = "task2.4.setB";
+				String leastUsedRep = getLeastUsedRep();
+				nextTask = "task2.4.setB."+leastUsedRep;
 			}
 			else {
 				rule = ("appChallenged_task2.4_else");
@@ -137,7 +139,8 @@ public class Reasoner {
 			}
 			else {
 				rule = ("appChallenged_task2.7_else");
-				nextTask = "task2.4.setB";
+				String leastUsedRep = getLeastUsedRep();
+				nextTask = "task2.4.setB."+leastUsedRep;
 			}
 		}
 		student.setRule(rule);
