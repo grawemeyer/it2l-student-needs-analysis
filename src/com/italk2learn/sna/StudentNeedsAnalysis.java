@@ -291,9 +291,9 @@ public class StudentNeedsAnalysis{// implements IStudentNeedsAnalysis {
 		saveLog("sna.feedback.affirmation", ""+student.getAmountAffirmation());
 		saveLog("sna.feedback.taskNotFinished", ""+student.getAmountTaskNotFinished());
 		
-		saveLog("sna.sc",student.getStudentChallengeAsString());
-		saveLog("sna.rule",rule);
-		saveLog("sna.task",task);
+		saveLog("sna.setNextTask.sc",student.getStudentChallengeAsString());
+		saveLog("sna.setNextTask.rule",rule);
+		saveLog("sna.setNextTask.task",task);
 	}
 
 
@@ -361,7 +361,6 @@ public class StudentNeedsAnalysis{// implements IStudentNeedsAnalysis {
 	/*public IStudentModelDAO getStudentModelDAO() {
 		return studentModelDAO;
 	}
-
 	public void setStudentModelDAO(IStudentModelDAO studentModelDAO) {
 		this.studentModelDAO = studentModelDAO;
 	}
