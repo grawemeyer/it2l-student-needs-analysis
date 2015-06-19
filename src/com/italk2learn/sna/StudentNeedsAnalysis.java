@@ -53,6 +53,10 @@ public class StudentNeedsAnalysis{// implements IStudentNeedsAnalysis {
 		student=new StudentModel();
 	}
 	
+	public StudentModel getStudentModel(){
+		return student;
+	}
+	
 	public void setInEngland(boolean value){
 		student.setInEngland(value);
 	}

@@ -94,7 +94,7 @@ public class Reasoner {
 		return nextTask;
 	}
 	
-	private String getNextTaskForAppropriatelyChallgenge(String currenExercise){
+	public String getNextTaskForAppropriatelyChallgenge(String currenExercise){
 		String nextTask = "";
 		String currentTask = currenExercise.substring(0, 7);
 		String rule = "";
